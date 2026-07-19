@@ -4,6 +4,7 @@ import com.vitig.car_rent.data.dto.car_dto.CarCreateDto;
 import com.vitig.car_rent.data.dto.car_dto.CarFetchDto;
 import com.vitig.car_rent.data.dto.car_dto.CarUpdateDto;
 import com.vitig.car_rent.service.contract.CarService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,22 +22,22 @@ public class CarController {
     }
 
     @GetMapping("/{id}")
-    public CarFetchDto getCarById(Long id) {
+    public CarFetchDto getCarById(@PathVariable Long id) {
         return carService.getCarById(id);
     }
 
     @PostMapping
-    public CarFetchDto createCar(CarCreateDto carCreateDto) {
+    public CarFetchDto createCar(@Valid @RequestBody CarCreateDto carCreateDto) {
         return carService.createCar(carCreateDto);
     }
 
-    @PostMapping("/{id}")
-    public CarFetchDto updateCar(Long id, CarUpdateDto carUpdateDto) {
+    @PutMapping("/{id}")
+    public CarFetchDto updateCar(@PathVariable Long id, @Valid @RequestBody CarUpdateDto carUpdateDto) {
         return carService.updateCar(id, carUpdateDto);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCar(Long id) {
+    public void deleteCar(@PathVariable Long id) {
         carService.deleteCar(id);
     }
 
