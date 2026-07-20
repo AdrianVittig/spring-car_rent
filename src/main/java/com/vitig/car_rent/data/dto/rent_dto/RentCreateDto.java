@@ -1,6 +1,5 @@
-package com.vitig.car_rent.data.dto.car_dto;
+package com.vitig.car_rent.data.dto.rent_dto;
 
-import com.vitig.car_rent.data.util.CarStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,8 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CarUpdateDto {
-    private CarStatus status;
+public class RentCreateDto {
+    private Long carId;
     private Long customerId;
-    private String plate;
+    private Long rentDate;
 }

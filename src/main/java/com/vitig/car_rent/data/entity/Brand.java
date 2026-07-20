@@ -15,6 +15,4 @@ import java.util.Set;
 public class Brand extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private CarBrand brand;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "brand")
-    private Set<Model> model;
 }

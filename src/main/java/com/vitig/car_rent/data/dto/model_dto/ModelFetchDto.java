@@ -1,5 +1,6 @@
 package com.vitig.car_rent.data.dto.model_dto;
 
+import com.vitig.car_rent.data.dto.brand_dto.BrandFetchDto;
 import com.vitig.car_rent.data.util.CarColor;
 import com.vitig.car_rent.data.util.CarFuel;
 import com.vitig.car_rent.data.util.CarModel;
@@ -24,4 +25,5 @@ public class ModelFetchDto {
     private CarFuel fuel;
     private Integer minimalAge;
     private Long brandId;
+    private BrandFetchDto brand;
 }

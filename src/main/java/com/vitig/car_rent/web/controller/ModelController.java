@@ -6,6 +6,7 @@ import com.vitig.car_rent.data.dto.model_dto.ModelUpdateDto;
 import com.vitig.car_rent.service.contract.ModelService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,26 +18,31 @@ public class ModelController {
     private final ModelService modelService;
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<ModelFetchDto> getAllModels() {
         return modelService.getAllModels();
     }
 
     @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public ModelFetchDto getModelById(@PathVariable Long id) {
         return modelService.getModelById(id);
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public ModelFetchDto createModel(@Valid @RequestBody ModelCreateDto modelCreateDto) {
         return modelService.createModel(modelCreateDto);
     }
 
     @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public ModelFetchDto updateModel(@PathVariable Long id, @Valid @RequestBody ModelUpdateDto modelUpdateDto) {
         return modelService.updateModel(id, modelUpdateDto);
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteModel(@PathVariable Long id) {
         modelService.deleteModel(id);
     }

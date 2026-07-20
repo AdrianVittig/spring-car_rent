@@ -4,8 +4,6 @@ import com.vitig.car_rent.data.util.CarColor;
 import com.vitig.car_rent.data.util.CarFuel;
 import com.vitig.car_rent.data.util.CarModel;
 import com.vitig.car_rent.data.util.CarType;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -10,6 +10,7 @@ import com.vitig.car_rent.data.repository.ModelRepository;
 import com.vitig.car_rent.service.contract.ModelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -34,12 +35,14 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
+    @Transactional
     public ModelFetchDto createModel(ModelCreateDto modelCreateDto) {
         Model model = modelMapperUtil.map(modelCreateDto, Model.class);
         return modelMapperUtil.map(this.modelRepository.save(model), ModelFetchDto.class);
     }
 
     @Override
+    @Transactional
     public ModelFetchDto updateModel(Long id, ModelUpdateDto modelUpdateDto) {
         Model model = this.modelRepository.findById(id).orElseThrow(
                 () -> new ObjectNotFoundException("Model not found with id: " + id + "!")
@@ -51,6 +54,7 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
+    @Transactional
     public void deleteModel(Long id) {
         Model model = this.modelRepository.findById(id).orElseThrow(
                 () -> new ObjectNotFoundException("Model not found with id: " + id + "!")

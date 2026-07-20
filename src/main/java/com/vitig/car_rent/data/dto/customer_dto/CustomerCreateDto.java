@@ -1,6 +1,5 @@
-package com.vitig.car_rent.data.dto.brand_dto;
+package com.vitig.car_rent.data.dto.customer_dto;
 
-import com.vitig.car_rent.data.util.CarBrand;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +9,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BrandUpdateDto {
-    private CarBrand brand;
+public class CustomerCreateDto {
+    private String name;
 }

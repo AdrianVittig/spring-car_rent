@@ -12,4 +12,6 @@ public interface BrandService {
     BrandFetchDto createBrand(BrandCreateDto brandCreateDto);
     BrandFetchDto updateBrand(Long id, BrandUpdateDto brandUpdateDto);
     void deleteBrand(Long id);
+
+    void addModelToBrand(Long brandId, Long modelId);
 }

@@ -1,15 +1,16 @@
-package com.vitig.car_rent.data.dto.brand_dto;
+package com.vitig.car_rent.data.dto.customer_dto;
 
-import com.vitig.car_rent.data.util.CarBrand;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BrandUpdateDto {
-    private CarBrand brand;
+public class CustomerUpdateDto {
+    private List<Long> carsIds;
 }
