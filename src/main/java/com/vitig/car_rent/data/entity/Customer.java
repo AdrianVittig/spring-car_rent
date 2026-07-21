@@ -19,5 +19,5 @@ import java.util.List;
 public class Customer extends BaseEntity{
     private String name;
     @OneToMany(mappedBy = "customer")
-    private List<Car> cars;
+    private List<Rent> rents;
 }

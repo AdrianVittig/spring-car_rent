@@ -15,7 +15,7 @@ public class CarFetchDto {
     private Long id;
     private String plate;
     private CarStatus status;
-    private Long customerId;
     private Long modelId;
     private ModelFetchDto model;
+    private Long carId;
 }

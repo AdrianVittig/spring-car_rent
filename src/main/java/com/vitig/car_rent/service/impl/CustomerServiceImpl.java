@@ -38,6 +38,13 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public Customer getCustomerEntityById(Long id) {
+        return this.customerRepository.findById(id).orElseThrow(
+                () -> new ObjectNotFoundException("User not found with id " + id + "!")
+        );
+    }
+
+    @Override
     @Transactional
     public CustomerFetchDto createCustomer(CustomerCreateDto customerCreateDto) {
         Customer customer = modelMapperUtil.map(customerCreateDto, Customer.class);

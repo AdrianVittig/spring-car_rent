@@ -3,7 +3,9 @@ package com.vitig.car_rent.service.contract;
 import com.vitig.car_rent.data.dto.rent_dto.RentCreateDto;
 import com.vitig.car_rent.data.dto.rent_dto.RentFetchDto;
 import com.vitig.car_rent.data.dto.rent_dto.RentUpdateDto;
+import com.vitig.car_rent.data.entity.Rent;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface RentService {
@@ -12,4 +14,5 @@ public interface RentService {
     RentFetchDto createRent(RentCreateDto rentCreateDto);
     RentFetchDto updateRent(Long id, RentUpdateDto rentUpdateDto);
     void deleteRent(Long id);
+    List<Rent> getByRentIdAndRentDateBetweenAndReturnDate(Long carId, LocalDateTime startDate, LocalDateTime endDate);
 }

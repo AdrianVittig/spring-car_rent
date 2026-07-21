@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -14,7 +15,7 @@ import java.math.BigDecimal;
 public class RentUpdateDto {
     private Long carId;
     private Long customerId;
-    private Long rentDate;
-    private Long returnDate;
+    private LocalDateTime rentDate;
+    private LocalDateTime returnDate;
     private BigDecimal totalPrice;
 }

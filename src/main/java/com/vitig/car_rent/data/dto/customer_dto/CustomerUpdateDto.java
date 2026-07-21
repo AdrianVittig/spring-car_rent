@@ -12,5 +12,5 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CustomerUpdateDto {
-    private List<Long> carsIds;
+    private List<Long> rentIds;
 }

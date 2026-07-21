@@ -7,6 +7,8 @@ import com.vitig.car_rent.data.util.CarType;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "models")
 @Getter
@@ -26,6 +28,7 @@ public class Model extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private CarFuel fuel;
     private Integer minimalAge;
+    private BigDecimal pricePerDay;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Brand brand;

@@ -10,6 +10,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -26,4 +28,5 @@ public class ModelFetchDto {
     private Integer minimalAge;
     private Long brandId;
     private BrandFetchDto brand;
+    private BigDecimal pricePerDay;
 }

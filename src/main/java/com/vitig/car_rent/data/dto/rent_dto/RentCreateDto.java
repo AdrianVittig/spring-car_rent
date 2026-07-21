@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -12,5 +14,6 @@ import lombok.Setter;
 public class RentCreateDto {
     private Long carId;
     private Long customerId;
-    private Long rentDate;
+    private LocalDateTime rentDate;
+    private LocalDateTime returnDate;
 }

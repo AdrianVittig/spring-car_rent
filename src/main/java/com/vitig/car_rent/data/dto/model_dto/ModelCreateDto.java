@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -22,6 +24,7 @@ public class ModelCreateDto {
     private Integer doors;
     private CarFuel fuel;
     private Integer minimalAge;
+    private BigDecimal pricePerDay;
 
     private Long brandId;
 }

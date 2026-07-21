@@ -4,15 +4,10 @@ import com.vitig.car_rent.config.util.ModelMapperUtil;
 import com.vitig.car_rent.data.dto.car_dto.CarCreateDto;
 import com.vitig.car_rent.data.dto.car_dto.CarFetchDto;
 import com.vitig.car_rent.data.dto.car_dto.CarUpdateDto;
-import com.vitig.car_rent.data.dto.rent_dto.RentCreateDto;
 import com.vitig.car_rent.data.entity.Car;
-import com.vitig.car_rent.data.exception.CarAlreadyAvailableException;
-import com.vitig.car_rent.data.exception.CarAlreadyRentedException;
 import com.vitig.car_rent.data.exception.ObjectNotFoundException;
 import com.vitig.car_rent.data.repository.CarRepository;
-import com.vitig.car_rent.data.util.CarStatus;
 import com.vitig.car_rent.service.contract.CarService;
-import com.vitig.car_rent.service.contract.RentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CarServiceImpl implements CarService {
     private final CarRepository carRepository;
-    private final RentService rentService;
     private final ModelMapperUtil modelMapperUtil;
 
     @Override
@@ -38,6 +32,13 @@ public class CarServiceImpl implements CarService {
         return modelMapperUtil.map(this.carRepository.findById(id).orElseThrow(
                 () -> new ObjectNotFoundException("Car not found with id: " + id + "!")
         ), CarFetchDto.class);
+    }
+
+    @Override
+    public Car getCarEntityById(Long id) {
+        return this.carRepository.findById(id).orElseThrow(
+                () -> new ObjectNotFoundException("Car not found with id: " + id + "!")
+        );
     }
 
     @Override
@@ -67,32 +68,4 @@ public class CarServiceImpl implements CarService {
         this.carRepository.delete(car);
     }
 
-    @Override
-    public CarFetchDto reserveCar(Long carId, RentCreateDto rentCreateDto) {
-        Car car = this.carRepository.findById(carId).orElseThrow(
-                () -> new ObjectNotFoundException("Car not found with id: " + carId + "!")
-        );
-
-        if(car.getStatus() == CarStatus.RENTED){
-            throw new CarAlreadyRentedException("Car already rented!");
-        }
-
-        this.rentService.createRent(rentCreateDto);
-        car.setStatus(CarStatus.RENTED);
-
-        return modelMapperUtil.map(this.carRepository.save(car), CarFetchDto.class);
-    }
-
-    @Override
-    public void returnCar(Long carId) {
-        Car car = this.carRepository.findById(carId).orElseThrow(
-                () -> new ObjectNotFoundException("Car not found with id: " + carId + "!")
-        );
-        if(car.getStatus() == CarStatus.AVAILABLE){
-            throw new CarAlreadyAvailableException("Car already available!");
-        }
-
-        car.setStatus(CarStatus.AVAILABLE);
-        this.carRepository.save(car);
-    }
 }

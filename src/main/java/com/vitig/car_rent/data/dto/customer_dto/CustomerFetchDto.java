@@ -14,5 +14,5 @@ import java.util.List;
 public class CustomerFetchDto {
     private Long id;
     private String name;
-    private List<Long> carsIds;
+    private List<Long> rentIds;
 }

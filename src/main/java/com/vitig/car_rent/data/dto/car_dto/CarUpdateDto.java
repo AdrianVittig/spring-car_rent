@@ -12,6 +12,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CarUpdateDto {
     private CarStatus status;
-    private Long customerId;
     private String plate;
+    private Long carId;
 }

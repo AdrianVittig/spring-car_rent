@@ -7,11 +7,13 @@ import com.vitig.car_rent.data.dto.model_dto.ModelUpdateDto;
 import com.vitig.car_rent.data.entity.Model;
 import com.vitig.car_rent.data.exception.ObjectNotFoundException;
 import com.vitig.car_rent.data.repository.ModelRepository;
+import com.vitig.car_rent.data.util.CarType;
 import com.vitig.car_rent.service.contract.ModelService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -38,6 +40,25 @@ public class ModelServiceImpl implements ModelService {
     @Transactional
     public ModelFetchDto createModel(ModelCreateDto modelCreateDto) {
         Model model = modelMapperUtil.map(modelCreateDto, Model.class);
+        BigDecimal basePrice = BigDecimal.valueOf(30);
+        if(modelCreateDto.getBrandId().equals(1L)
+                || modelCreateDto.getBrandId().equals(2L)
+                || modelCreateDto.getBrandId().equals(3L)){
+            basePrice = basePrice.multiply(BigDecimal.valueOf(1.30));
+        }
+        if(modelCreateDto.getYear() >= 2025){
+            basePrice = basePrice.multiply(BigDecimal.valueOf(1.20));
+        }
+        else if(modelCreateDto.getYear() >= 2021){
+            basePrice = basePrice.multiply(BigDecimal.valueOf(1.15));
+        }
+        else if (modelCreateDto.getYear() >= 2017){
+            basePrice = basePrice.multiply(BigDecimal.valueOf(1.05));
+        }
+        if(modelCreateDto.getType().equals(CarType.SUV)){
+            basePrice = basePrice.multiply(BigDecimal.valueOf(1.05));
+        }
+        model.setPricePerDay(basePrice);
         return modelMapperUtil.map(this.modelRepository.save(model), ModelFetchDto.class);
     }
 

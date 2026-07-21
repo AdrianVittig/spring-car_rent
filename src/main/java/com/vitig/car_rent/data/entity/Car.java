@@ -18,8 +18,5 @@ public class Car extends BaseEntity{
     private CarStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Customer customer;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     private Model model;
 }

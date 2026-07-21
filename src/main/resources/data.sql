@@ -16,8 +16,8 @@ INSERT IGNORE INTO customers (id, name) VALUES
   (1, 'Ivan Petrov');
 
 -- Cars
-INSERT IGNORE INTO cars (id, plate, status, model_id, customer_id) VALUES
-  (1, 'CB1111AA', 'AVAILABLE', 1, NULL),
-  (2, 'CB2222BB', 'AVAILABLE', 2, NULL),
-  (3, 'CA3333CC', 'RENTED',    3, 1),
-  (4, 'PB4444DD', 'AVAILABLE', 4, NULL);
+INSERT IGNORE INTO cars (id, plate, status, model_id) VALUES
+  (1, 'CB1111AA', 'AVAILABLE', 1),
+  (2, 'CB2222BB', 'AVAILABLE', 2),
+  (3, 'CA3333CC', 'RENTED',    3),
+  (4, 'PB4444DD', 'AVAILABLE', 4);
