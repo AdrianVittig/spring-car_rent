@@ -2,6 +2,7 @@ package com.vitig.car_rent.data.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +18,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Customer extends BaseEntity{
-    private String name;
+    @OneToOne
+    private User user;
     @OneToMany(mappedBy = "customer")
     private List<Rent> rents;
 }

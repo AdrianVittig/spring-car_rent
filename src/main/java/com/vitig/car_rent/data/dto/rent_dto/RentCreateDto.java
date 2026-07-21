@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class RentCreateDto {
     private Long carId;
-    private Long customerId;
     private LocalDateTime rentDate;
     private LocalDateTime returnDate;
 }

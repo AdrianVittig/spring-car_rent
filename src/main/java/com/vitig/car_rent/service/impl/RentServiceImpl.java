@@ -8,14 +8,18 @@ import com.vitig.car_rent.data.dto.rent_dto.RentUpdateDto;
 import com.vitig.car_rent.data.entity.Car;
 import com.vitig.car_rent.data.entity.Customer;
 import com.vitig.car_rent.data.entity.Rent;
+import com.vitig.car_rent.data.entity.User;
 import com.vitig.car_rent.data.exception.CarAlreadyRentedException;
 import com.vitig.car_rent.data.exception.ObjectNotFoundException;
 import com.vitig.car_rent.data.repository.RentRepository;
+import com.vitig.car_rent.data.repository.UserRepository;
 import com.vitig.car_rent.data.util.CarStatus;
 import com.vitig.car_rent.service.contract.CarService;
 import com.vitig.car_rent.service.contract.CustomerService;
 import com.vitig.car_rent.service.contract.RentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +35,7 @@ public class RentServiceImpl implements RentService {
     private final CustomerService customerService;
     private final ModelMapperUtil modelMapperUtil;
     private final CarService carService;
+    private final UserRepository userRepository;
 
     @Override
     public List<RentFetchDto> getAllRents() {
@@ -49,8 +54,22 @@ public class RentServiceImpl implements RentService {
     @Override
     @Transactional
     public RentFetchDto createRent(RentCreateDto rentCreateDto) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth != null ? auth.getName() : null;
+        User user = userRepository.findByUsername(username);
+        if(user == null){
+            throw new ObjectNotFoundException("User not found!");
+        }
+
+        Customer customer = user.getCustomer();
+        if(customer == null){
+            throw new ObjectNotFoundException("Customer not found!");
+        }
+
         Car car = carService.getCarEntityById(rentCreateDto.getCarId());
-        Customer customer = customerService.getCustomerEntityById(rentCreateDto.getCustomerId());
+        if(car == null){
+            throw new ObjectNotFoundException("Car not found!");
+        }
 
         Long daysCount = ChronoUnit.DAYS.between(rentCreateDto.getRentDate(),
                 rentCreateDto.getReturnDate());
@@ -63,7 +82,7 @@ public class RentServiceImpl implements RentService {
             throw new IllegalArgumentException("Return date must be greater than rent date!");
         }
 
-        List<Rent> rents = getByRentIdAndRentDateBetweenAndReturnDate(car.getId(),
+        List<Rent> rents = findOverlappingRents(car.getId(),
                 rentCreateDto.getRentDate(),
                 rentCreateDto.getReturnDate());
 
@@ -77,8 +96,8 @@ public class RentServiceImpl implements RentService {
         rent.setRentDate(rentCreateDto.getRentDate());
         rent.setReturnDate(rentCreateDto.getReturnDate());
         rent.setCar(car);
-        rent.setCustomer(customer);
         rent.setTotalPrice(total);
+        rent.setCustomer(customer);
         car.setStatus(CarStatus.RENTED);
 
         return modelMapperUtil.map(this.rentRepository.save(rent), RentFetchDto.class);
@@ -108,7 +127,7 @@ public class RentServiceImpl implements RentService {
     }
 
     @Override
-    public List<Rent> getByRentIdAndRentDateBetweenAndReturnDate(Long carId ,LocalDateTime startDate, LocalDateTime endDate) {
+    public List<Rent> findOverlappingRents(Long carId ,LocalDateTime startDate, LocalDateTime endDate) {
         return this.rentRepository.findOverlappingRents(carId, startDate, endDate);
     }
 }
