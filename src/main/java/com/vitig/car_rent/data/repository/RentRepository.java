@@ -13,4 +13,6 @@ public interface RentRepository extends JpaRepository<Rent, Long> {
     List<Rent> findOverlappingRents(@Param("carId") Long carId,
                                     @Param("startDate") LocalDateTime startDate,
                                     @Param("endDate") LocalDateTime endDate);
+
+    List<Rent> findByCustomerId(Long customerId);
 }

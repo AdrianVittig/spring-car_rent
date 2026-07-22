@@ -30,6 +30,12 @@ public class RentController {
         return rentService.getRentById(id);
     }
 
+    @GetMapping("/me")
+    @ResponseStatus(HttpStatus.OK)
+    public List<RentFetchDto> getRentByCustomerId() {
+        return rentService.getMyRents();
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public RentFetchDto createRent(@Valid @RequestBody RentCreateDto rentCreateDto) {

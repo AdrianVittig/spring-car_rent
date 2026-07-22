@@ -1,5 +1,6 @@
 package com.vitig.car_rent.data.dto.rent_dto;
 
+import com.vitig.car_rent.data.dto.car_dto.CarFetchDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 public class RentFetchDto {
     private Long id;
     private Long carId;
-    private Long customerId;
+    private CarFetchDto car;
     private LocalDateTime rentDate;
     private LocalDateTime returnDate;
     private BigDecimal totalPrice;

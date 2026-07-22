@@ -130,4 +130,23 @@ public class RentServiceImpl implements RentService {
     public List<Rent> findOverlappingRents(Long carId ,LocalDateTime startDate, LocalDateTime endDate) {
         return this.rentRepository.findOverlappingRents(carId, startDate, endDate);
     }
+
+    @Override
+    public List<RentFetchDto> getMyRents() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        if(username == null){
+            throw new ObjectNotFoundException("User not found!");
+        }
+        User user = userRepository.findByUsername(username);
+        if(user == null){
+            throw new ObjectNotFoundException("User not found!");
+        }
+        Customer customer = user.getCustomer();
+        if(customer == null){
+            throw new ObjectNotFoundException("Customer not found!");
+        }
+        Long customerId = customer.getId();
+        return modelMapperUtil.mapList(this.rentRepository.findByCustomerId(customerId), RentFetchDto.class);
+    }
 }
