@@ -49,10 +49,11 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.DELETE, "/api/brands/**").hasRole("ADMIN")
 
                         .requestMatchers(HttpMethod.POST, "/api/rents/**").hasAnyRole("ADMIN", "CUSTOMER")
+                        .requestMatchers(HttpMethod.PUT, "/api/rents/*/cancel").hasAnyRole("ADMIN", "CUSTOMER")
                         .requestMatchers(HttpMethod.PUT, "/api/rents/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/rents/**").hasRole("ADMIN")
 
-                        .requestMatchers(HttpMethod.POST, "/api/customers/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/customers/**").permitAll()
                         .requestMatchers(HttpMethod.PUT, "/api/customers/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/customers/**").hasRole("ADMIN")
 

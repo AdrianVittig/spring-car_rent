@@ -53,4 +53,10 @@ public class RentController {
     public void deleteRent(@PathVariable Long id) {
         rentService.deleteRent(id);
     }
+
+    @PutMapping("/{id}/cancel")
+    @ResponseStatus(HttpStatus.OK)
+    public void cancelRent(@PathVariable Long id) {
+        rentService.cancelRent(id);
+    }
 }

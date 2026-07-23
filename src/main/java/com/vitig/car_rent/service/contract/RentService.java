@@ -17,4 +17,5 @@ public interface RentService {
     void deleteRent(Long id);
     List<Rent> findOverlappingRents(Long carId, LocalDateTime startDate, LocalDateTime endDate);
     List<RentFetchDto> getMyRents();
+    void cancelRent(Long id);
 }

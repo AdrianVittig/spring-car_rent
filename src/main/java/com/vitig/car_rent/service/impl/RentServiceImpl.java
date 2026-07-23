@@ -1,7 +1,6 @@
 package com.vitig.car_rent.service.impl;
 
 import com.vitig.car_rent.config.util.ModelMapperUtil;
-import com.vitig.car_rent.data.dto.car_dto.CarFetchDto;
 import com.vitig.car_rent.data.dto.rent_dto.RentCreateDto;
 import com.vitig.car_rent.data.dto.rent_dto.RentFetchDto;
 import com.vitig.car_rent.data.dto.rent_dto.RentUpdateDto;
@@ -11,6 +10,7 @@ import com.vitig.car_rent.data.entity.Rent;
 import com.vitig.car_rent.data.entity.User;
 import com.vitig.car_rent.data.exception.CarAlreadyRentedException;
 import com.vitig.car_rent.data.exception.ObjectNotFoundException;
+import com.vitig.car_rent.data.repository.CarRepository;
 import com.vitig.car_rent.data.repository.RentRepository;
 import com.vitig.car_rent.data.repository.UserRepository;
 import com.vitig.car_rent.data.util.CarStatus;
@@ -36,6 +36,7 @@ public class RentServiceImpl implements RentService {
     private final ModelMapperUtil modelMapperUtil;
     private final CarService carService;
     private final UserRepository userRepository;
+    private final CarRepository carRepository;
 
     @Override
     public List<RentFetchDto> getAllRents() {
@@ -148,5 +149,33 @@ public class RentServiceImpl implements RentService {
         }
         Long customerId = customer.getId();
         return modelMapperUtil.mapList(this.rentRepository.findByCustomerId(customerId), RentFetchDto.class);
+    }
+
+    @Override
+    @Transactional
+    public void cancelRent(Long id) {
+        Rent rent = this.rentRepository.findById(id).orElseThrow(
+                () -> new ObjectNotFoundException("Rent not found with id: " + id + "!")
+        );
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        if(username == null){
+            throw new ObjectNotFoundException("User not found!");
+        }
+        User user = userRepository.findByUsername(username);
+        if(user == null){
+            throw new ObjectNotFoundException("User not found!");
+        }
+        Customer customer = user.getCustomer();
+        if(customer == null){
+            throw new ObjectNotFoundException("Customer not found!");
+        }
+        if(!customer.getId().equals(rent.getCustomer().getId())){
+            throw new ObjectNotFoundException("You can't cancel this rent!");
+        }
+        Car car = rent.getCar();
+        car.setStatus(CarStatus.AVAILABLE);
+        carRepository.save(car);
+        this.rentRepository.delete(rent);
     }
 }
